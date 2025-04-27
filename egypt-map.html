@@ -2,18 +2,19 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8">
-  <title>خريطة مصر التفاعلية - مشروع في محطة مصر</title>
+  <title>خريطة مصر التفاعلية</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
-    #map {
-      height: 100vh;
-      width: 100%;
-    }
-    body {
+    body, html {
       margin: 0;
       padding: 0;
+      height: 100%;
       font-family: 'Cairo', sans-serif;
       background-color: #f5f5f5;
+    }
+    #map {
+      height: 100%;
+      width: 100%;
     }
   </style>
 </head>
@@ -23,12 +24,36 @@
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
-  // إنشاء الخريطة بمركز مصر وتكبير مناسب
   var map = L.map('map').setView([26.8206, 30.8025], 6);
 
-  // بلاطة خريطة Retro ناعمة
   L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png', {
     attribution: '© OpenStreetMap contributors'
   }).addTo(map);
 
-  // أيقونة علم مصر
+  var egyptIcon = L.icon({
+    iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/f/fe/Flag_of_Egypt.svg',
+    iconSize: [32, 32],
+    iconAnchor: [16, 32],
+    popupAnchor: [0, -32]
+  });
+
+  var cities = [
+    { name: "محطة مصر (القاهرة)", coords: [30.0647, 31.2495], info: "أحد أقدم محطات القطار في أفريقيا.", link: "https://yourwebsite.com/cairostation" },
+    { name: "العتبة", coords: [30.0498, 31.2437], info: "سوق شعبي وتاريخي بالقاهرة.", link: "https://yourwebsite.com/attaba" },
+    { name: "بورسعيد", coords: [31.2653, 32.3019], info: "مدينة القناة بتاريخها العريق.", link: "https://yourwebsite.com/portsaid" },
+    { name: "مرسى مطروح", coords: [31.3543, 27.2373], info: "ساحل مميز بمياهه الفيروزية.", link: "https://yourwebsite.com/matrouh" },
+    { name: "أسوان", coords: [24.0889, 32.8998], info: "بوابة النوبة وأرض الشمس.", link: "https://yourwebsite.com/aswan" },
+    { name: "الإسكندرية", coords: [31.2001, 29.9187], info: "عروس البحر الأبيض المتوسط.", link: "https://yourwebsite.com/alexandria" },
+    { name: "الأقصر", coords: [25.6872, 32.6396], info: "متحف مفتوح للحضارة الفرعونية.", link: "https://yourwebsite.com/luxor" },
+    { name: "الغردقة", coords: [27.2579, 33.8116], info: "جنة البحر الأحمر والغوص.", link: "https://yourwebsite.com/hurghada" },
+    { name: "شرم الشيخ", coords: [27.9158, 34.3290], info: "مدينة السلام والمنتجعات السياحية.", link: "https://yourwebsite.com/sharmelsheikh" }
+  ];
+
+  cities.forEach(function(city) {
+    var marker = L.marker(city.coords, {icon: egyptIcon}).addTo(map);
+    marker.bindPopup("<b>" + city.name + "</b><br>" + city.info + "<br><a href='" + city.link + "' target='_blank'>اعرف أكتر</a>");
+  });
+</script>
+
+</body>
+</html>
